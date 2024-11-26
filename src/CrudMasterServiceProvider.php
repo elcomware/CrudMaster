@@ -43,13 +43,21 @@ class CrudMasterServiceProvider extends PackageServiceProvider
             )
             ->hasInstallCommand(function(InstallCommand $command) {
                 $command
+                    ->startWith(function(InstallCommand $command) {
+                        $command->info('Welcome to crudmaster installer !');
+                        $command->info('Starting installation....');
+                    })
                     ->publishConfigFile()
                     ->publishAssets()
                     ->publishMigrations()
                     ->askToRunMigrations()
                     ->copyAndRegisterServiceProviderInApp()
                     ->askToStarRepoOnGitHub('thereline/crudmaster')
+                    ->endWith(function(InstallCommand $command) {
+                        $command->info('installation sucessfull!');
+                    })
             });
+            
     }
 
     public function registeringPackage(): void
